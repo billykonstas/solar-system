@@ -260,7 +260,7 @@ planets.forEach( (planet) => {
 
 //Planets' orbits
 const mercuryOrbit = new THREE.Mesh (
-  new THREE.TorusGeometry( mercuryX, 0.5, 30, 200),
+  new THREE.TorusGeometry( mercuryX, 1.5, 30, 200),
   new THREE.MeshBasicMaterial(
     {
       color: 0xe6e6e6,
@@ -269,9 +269,12 @@ const mercuryOrbit = new THREE.Mesh (
     }
   )
 );
+mercuryOrbit.userData.originalMaterial = mercuryOrbit.material;
+mercuryOrbit.userData.planetName = 'Mercury';
+mercuryOrbit.userData.linkedPlanet = mercury;
 
 const venusOrbit = new THREE.Mesh (
-  new THREE.TorusGeometry( venusX, 0.5, 30, 200),
+  new THREE.TorusGeometry( venusX, 1.5, 30, 200),
   new THREE.MeshBasicMaterial(
     {
       color: 0xe6e6e6,
@@ -280,9 +283,12 @@ const venusOrbit = new THREE.Mesh (
     }
   )
 );
+venusOrbit.userData.originalMaterial = venusOrbit.material;
+venusOrbit.userData.planetName = 'Venus';
+venusOrbit.userData.linkedPlanet = venus;
 
 const earthOrbit = new THREE.Mesh (
-  new THREE.TorusGeometry( earthX, 0.5, 30, 200),
+  new THREE.TorusGeometry( earthX, 1.5, 30, 200),
   new THREE.MeshBasicMaterial(
     {
       color: 0xe6e6e6,
@@ -291,9 +297,12 @@ const earthOrbit = new THREE.Mesh (
     }
   )
 );
+earthOrbit.userData.originalMaterial = earthOrbit.material;
+earthOrbit.userData.planetName = 'Earth';
+earthOrbit.userData.linkedPlanet = earth;
 
 const marsOrbit = new THREE.Mesh (
-  new THREE.TorusGeometry( marsX, 0.5, 30, 200),
+  new THREE.TorusGeometry( marsX, 1.5, 30, 200),
   new THREE.MeshBasicMaterial(
     {
       color: 0xe6e6e6,
@@ -302,9 +311,12 @@ const marsOrbit = new THREE.Mesh (
     }
   )
 );
+marsOrbit.userData.originalMaterial = marsOrbit.material;
+marsOrbit.userData.planetName = 'Mars';
+marsOrbit.userData.linkedPlanet = mars;
 
 const jupiterOrbit = new THREE.Mesh (
-  new THREE.TorusGeometry( jupiterX, 0.5, 30, 200),
+  new THREE.TorusGeometry( jupiterX, 1.5, 30, 200),
   new THREE.MeshBasicMaterial(
     {
       color: 0xe6e6e6,
@@ -313,9 +325,12 @@ const jupiterOrbit = new THREE.Mesh (
     }
   )
 );
+jupiterOrbit.userData.originalMaterial = jupiterOrbit.material;
+jupiterOrbit.userData.planetName = 'Jupiter';
+jupiterOrbit.userData.linkedPlanet = jupiter;
 
 const saturnOrbit = new THREE.Mesh (
-  new THREE.TorusGeometry( saturnX, 0.5, 30, 200),
+  new THREE.TorusGeometry( saturnX, 1.5, 30, 200),
   new THREE.MeshBasicMaterial(
     {
       color: 0xe6e6e6,
@@ -324,9 +339,12 @@ const saturnOrbit = new THREE.Mesh (
     }
   )
 );
+saturnOrbit.userData.originalMaterial = saturnOrbit.material;
+saturnOrbit.userData.planetName = 'Saturn';
+saturnOrbit.userData.linkedPlanet = saturn;
 
 const uranusOrbit = new THREE.Mesh (
-  new THREE.TorusGeometry( uranusX, 0.5, 30, 200),
+  new THREE.TorusGeometry( uranusX, 1.5, 30, 200),
   new THREE.MeshBasicMaterial(
     {
       color: 0xe6e6e6,
@@ -335,9 +353,12 @@ const uranusOrbit = new THREE.Mesh (
     }
   )
 );
+uranusOrbit.userData.originalMaterial = uranusOrbit.material;
+uranusOrbit.userData.planetName = 'Uranus';
+uranusOrbit.userData.linkedPlanet = uranus;
 
 const neptuneOrbit = new THREE.Mesh (
-  new THREE.TorusGeometry( neptuneX, 0.5, 30, 200),
+  new THREE.TorusGeometry( neptuneX, 1.5, 30, 200),
   new THREE.MeshBasicMaterial(
     {
       color: 0xe6e6e6,
@@ -346,6 +367,9 @@ const neptuneOrbit = new THREE.Mesh (
     }
   )
 );
+neptuneOrbit.userData.originalMaterial = neptuneOrbit.material;
+neptuneOrbit.userData.planetName = 'Neptune';
+neptuneOrbit.userData.linkedPlanet = neptune;
 
 //Planets' Orbit creation
 var planetOrbits = [mercuryOrbit, venusOrbit, earthOrbit, marsOrbit, jupiterOrbit, saturnOrbit, uranusOrbit, neptuneOrbit];
@@ -437,7 +461,122 @@ document.addEventListener('click', event => {
   }
 );
 
+const orbitToPlanetMap = new Map();
+for(let i = 0; i < planetOrbits.length; i++) {
+    orbitToPlanetMap.set(planetOrbits[i], planets[i+1]); // planets[0] = sun, so skip it
+}
+function showTooltip(planet, x, y) {
+    tooltip.style.display = 'block';
+    tooltip.style.left = (x + 10) + 'px';
+    tooltip.style.top = (y + 10) + 'px';
+
+    const name = planet.userData.planetName || 'Unknown';
+    const speed = getPlanetSpeed(name) || 'N/A';
+    const info = getPlanetInfo(name) || 'N/A';
+    tooltip.innerHTML = `<strong>${name}</strong><br>Speed: ${speed}<br>${info}`;
+}
+
+function hideTooltip() {
+    tooltip.style.display = 'none';
+}
+
+let currentlyHoveredOrbit = null;
+window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+    hoverRaycaster.setFromCamera(mouse, camera);
+
+    // First test for planets
+    const planetHits = hoverRaycaster.intersectObjects(planets, true);
+    if (planetHits.length > 0) {
+        showTooltip(planetHits[0].object, event.clientX, event.clientY);
+        console.log(currentlyHoveredOrbit);
+
+        // Restore orbit if one was hovered before
+        if (currentlyHoveredOrbit) {
+            currentlyHoveredOrbit.material = currentlyHoveredOrbit.userData.originalMaterial;
+            currentlyHoveredOrbit = null;
+        }
+        return;
+    }
+
+    // Then test orbits
+    const orbitHits = hoverRaycaster.intersectObjects(planetOrbits, true);
+    if (orbitHits.length > 0) {
+        let hoveredOrbit = orbitHits[0].object;
+
+        // Try to find the top-level orbit if needed
+        while (hoveredOrbit && !orbitToPlanetMap.has(hoveredOrbit)) {
+            hoveredOrbit = hoveredOrbit.parent;
+        }
+
+        if (!hoveredOrbit) return;
+
+        // Restore previous
+        if (currentlyHoveredOrbit && currentlyHoveredOrbit !== hoveredOrbit) {
+            currentlyHoveredOrbit.material = currentlyHoveredOrbit.userData.originalMaterial;
+        }
+
+        // Change color if not already set
+        if (currentlyHoveredOrbit !== hoveredOrbit) {
+            hoveredOrbit.material = new THREE.MeshBasicMaterial({
+                color: 0x8D56E8,
+                opacity: 0.8,
+                transparent: true,
+            });
+            currentlyHoveredOrbit = hoveredOrbit;
+        }
+
+        const planet = orbitToPlanetMap.get(hoveredOrbit);
+        if (planet) showTooltip(planet, event.clientX, event.clientY); // Use screen coords here
+        return;
+    }
+
+    // Restore orbit color when nothing hovered
+    if (currentlyHoveredOrbit) {
+        currentlyHoveredOrbit.material = currentlyHoveredOrbit.userData.originalMaterial;
+        currentlyHoveredOrbit = null;
+    }
+    hideTooltip();
+});
+
+
+
 //Functions
+const tooltip = document.getElementById('tooltip');
+const mouse = new THREE.Vector2();
+
+function getPlanetSpeed(name) {
+    const speeds = {
+        Mercury: 47.87,
+        Venus: 35.02,
+        Earth: 29.78,
+        Mars: 24.077,
+        Jupiter: 13.07,
+        Saturn: 9.69,
+        Uranus: 6.81,
+        Neptune: 5.43,
+        Sun: 0,
+    };
+    return speeds[name] + ' km/s' ;
+}
+
+function getPlanetInfo(name) {
+    const infos = {
+        Mercury: 'Closest planet to the Sun.',
+        Venus: 'Hottest planet in the solar system.',
+        Earth: 'Our home planet.',
+        Mars: 'The Red Planet.',
+        Jupiter: 'The largest planet.',
+        Saturn: 'Famous for its rings.',
+        Uranus: 'Rotates on its side.',
+        Neptune: 'Farthest known planet.',
+        Sun: 'The center of our solar system.',
+    };
+    return infos[name] || '';
+}
+
 
 //loadingManager
 loadingManager.onLoad = function () {
@@ -525,8 +664,7 @@ function animate() {
       planet.rotateOnAxis (axis, 0.006);
     }
   });
-
-  controls.update();
+    controls.update();
   renderer.render (scene, camera);
 
 }
