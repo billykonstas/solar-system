@@ -15,6 +15,7 @@ var loadingManager = new THREE.LoadingManager( () => {
     const loadingScreen = document.getElementById( 'planet' );
 }
 );
+const textureLoader = new THREE.TextureLoader(loadingManager);
 
 //camera, renderer, controls
 const scene = new THREE.Scene();
@@ -75,7 +76,7 @@ bloomComposer.addPass(renderScene);
 bloomComposer.addPass(bloomPass);
 
 //background
-const spaceTexture = new THREE.TextureLoader(loadingManager).load('./img/space.jpg');
+const spaceTexture = textureLoader.load('./img/space.jpg');
 scene.background = spaceTexture;
 
 
@@ -100,7 +101,7 @@ const sun = new THREE.Mesh (
   new THREE.SphereGeometry(sunRad, 24, 24),
   new THREE.MeshBasicMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/sun.jpg'),
+      map : textureLoader.load('./img/sun.jpg'),
       side: THREE.DoubleSide
     }
 )
@@ -115,7 +116,7 @@ const mercury = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/mercury.jpg')
+      map : textureLoader.load('./img/mercury.jpg')
     }
   )
 );
@@ -129,7 +130,7 @@ const venus = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/venus.jpg')
+      map : textureLoader.load('./img/venus.jpg')
     }
   )
 );
@@ -142,7 +143,7 @@ const earth = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/earth.jpg'),
+      map : textureLoader.load('./img/earth.jpg'),
     }
   )
 );
@@ -157,7 +158,7 @@ const mars = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/mars.jpg'),
+      map : textureLoader.load('./img/mars.jpg'),
     }
   )
 );
@@ -170,7 +171,7 @@ const jupiter = new THREE.Mesh (
   new THREE.SphereGeometry(20, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/jupiter.jpg')
+      map : textureLoader.load('./img/jupiter.jpg')
     }
   )
 );
@@ -183,7 +184,7 @@ const saturn = new THREE.Mesh (
   new THREE.SphereGeometry(15, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/saturn.jpg')
+      map : textureLoader.load('./img/saturn.jpg')
     }
   )
 );
@@ -193,7 +194,7 @@ saturn.userData.selectable = true;
 
 //Saturn Ring
 const saturnRingX = saturnX;
-const saturnTexture = new THREE.TextureLoader(loadingManager).load('./img/saturn_ring.png');
+const saturnTexture = textureLoader.load('./img/saturn_ring.png');
 saturnTexture.rotation = 90 * Math.PI / 180;
 
 const saturnRing = new THREE.Mesh (
@@ -220,7 +221,7 @@ const uranus = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/uranus.jpg')
+      map : textureLoader.load('./img/uranus.jpg')
     }
   )
 );
@@ -233,7 +234,7 @@ const neptune = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : new THREE.TextureLoader(loadingManager).load('./img/neptune.jpg')
+      map : textureLoader.load('./img/neptune.jpg')
     }
   )
 );
@@ -272,6 +273,8 @@ const mercuryOrbit = new THREE.Mesh (
 mercuryOrbit.userData.originalMaterial = mercuryOrbit.material;
 mercuryOrbit.userData.planetName = 'Mercury';
 mercuryOrbit.userData.linkedPlanet = mercury;
+mercuryOrbit.userData.selectable = true;
+
 
 const venusOrbit = new THREE.Mesh (
   new THREE.TorusGeometry( venusX, 1.5, 30, 200),
@@ -286,6 +289,7 @@ const venusOrbit = new THREE.Mesh (
 venusOrbit.userData.originalMaterial = venusOrbit.material;
 venusOrbit.userData.planetName = 'Venus';
 venusOrbit.userData.linkedPlanet = venus;
+venusOrbit.userData.selectable = true;
 
 const earthOrbit = new THREE.Mesh (
   new THREE.TorusGeometry( earthX, 1.5, 30, 200),
@@ -300,6 +304,8 @@ const earthOrbit = new THREE.Mesh (
 earthOrbit.userData.originalMaterial = earthOrbit.material;
 earthOrbit.userData.planetName = 'Earth';
 earthOrbit.userData.linkedPlanet = earth;
+earthOrbit.userData.selectable = true;
+
 
 const marsOrbit = new THREE.Mesh (
   new THREE.TorusGeometry( marsX, 1.5, 30, 200),
@@ -314,6 +320,7 @@ const marsOrbit = new THREE.Mesh (
 marsOrbit.userData.originalMaterial = marsOrbit.material;
 marsOrbit.userData.planetName = 'Mars';
 marsOrbit.userData.linkedPlanet = mars;
+marsOrbit.userData.selectable = true;
 
 const jupiterOrbit = new THREE.Mesh (
   new THREE.TorusGeometry( jupiterX, 1.5, 30, 200),
@@ -328,6 +335,8 @@ const jupiterOrbit = new THREE.Mesh (
 jupiterOrbit.userData.originalMaterial = jupiterOrbit.material;
 jupiterOrbit.userData.planetName = 'Jupiter';
 jupiterOrbit.userData.linkedPlanet = jupiter;
+jupiterOrbit.userData.selectable = true;
+
 
 const saturnOrbit = new THREE.Mesh (
   new THREE.TorusGeometry( saturnX, 1.5, 30, 200),
@@ -342,6 +351,8 @@ const saturnOrbit = new THREE.Mesh (
 saturnOrbit.userData.originalMaterial = saturnOrbit.material;
 saturnOrbit.userData.planetName = 'Saturn';
 saturnOrbit.userData.linkedPlanet = saturn;
+saturnOrbit.userData.selectable = true;
+
 
 const uranusOrbit = new THREE.Mesh (
   new THREE.TorusGeometry( uranusX, 1.5, 30, 200),
@@ -356,6 +367,8 @@ const uranusOrbit = new THREE.Mesh (
 uranusOrbit.userData.originalMaterial = uranusOrbit.material;
 uranusOrbit.userData.planetName = 'Uranus';
 uranusOrbit.userData.linkedPlanet = uranus;
+uranusOrbit.userData.selectable = true;
+
 
 const neptuneOrbit = new THREE.Mesh (
   new THREE.TorusGeometry( neptuneX, 1.5, 30, 200),
@@ -370,6 +383,7 @@ const neptuneOrbit = new THREE.Mesh (
 neptuneOrbit.userData.originalMaterial = neptuneOrbit.material;
 neptuneOrbit.userData.planetName = 'Neptune';
 neptuneOrbit.userData.linkedPlanet = neptune;
+neptuneOrbit.userData.selectable = true;
 
 //Planets' Orbit creation
 var planetOrbits = [mercuryOrbit, venusOrbit, earthOrbit, marsOrbit, jupiterOrbit, saturnOrbit, uranusOrbit, neptuneOrbit];
@@ -491,8 +505,7 @@ window.addEventListener('mousemove', (event) => {
     const planetHits = hoverRaycaster.intersectObjects(planets, true);
     if (planetHits.length > 0) {
         showTooltip(planetHits[0].object, event.clientX, event.clientY);
-        console.log(currentlyHoveredOrbit);
-
+        document.body.style.cursor = 'pointer';
         // Restore orbit if one was hovered before
         if (currentlyHoveredOrbit) {
             currentlyHoveredOrbit.material = currentlyHoveredOrbit.userData.originalMaterial;
@@ -505,7 +518,7 @@ window.addEventListener('mousemove', (event) => {
     const orbitHits = hoverRaycaster.intersectObjects(planetOrbits, true);
     if (orbitHits.length > 0) {
         let hoveredOrbit = orbitHits[0].object;
-
+        document.body.style.cursor = 'pointer';
         // Try to find the top-level orbit if needed
         while (hoveredOrbit && !orbitToPlanetMap.has(hoveredOrbit)) {
             hoveredOrbit = hoveredOrbit.parent;
@@ -539,6 +552,7 @@ window.addEventListener('mousemove', (event) => {
         currentlyHoveredOrbit = null;
     }
     hideTooltip();
+    document.body.style.cursor = 'default';
 });
 
 
@@ -630,7 +644,7 @@ function createEarth()
   camera.position.set(20,0,0);
   var cloudGeometry   = new THREE.SphereGeometry(5.1, 24, 24);
   var cloudMaterial  = new THREE.MeshPhongMaterial({
-  map     : new THREE.TextureLoader(loadingManager).load('./img/clouds.png'),
+  map     : textureLoader.load('./img/clouds.png'),
   side        :  THREE.DoubleSide,
   opacity     : 0.8,
   transparent : true,
