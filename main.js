@@ -7,13 +7,12 @@ import { RenderPass } from 'https://unpkg.com/three@0.127.0/examples/jsm/postpro
 import { UnrealBloomPass} from 'https://unpkg.com/three@0.127.0/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 
-var planetOrbits = [];
 
 //LoadingScreen
 var RESOURCES_LOADED = false;
 
 var loadingManager = new THREE.LoadingManager( () => {
-		const loadingScreen = document.getElementById( 'planet' );
+    const loadingScreen = document.getElementById( 'planet' );
 }
 );
 
@@ -36,12 +35,22 @@ camera.position.set(-100, 120, 240);
 renderer.render(scene, camera);
 
 const controls = new OrbitControls( camera, renderer.domElement);
+controls.minDistance = 100;
+controls.maxDistance = 400;
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.minPolarAngle = Math.PI / 4;   // 45 degrees
+controls.maxPolarAngle = Math.PI / 2;   // 90 degrees
+controls.autoRotate = true;
+controls.autoRotateSpeed = 1.0;
+
 
 //lights
 const pointLight = new THREE.PointLight(0xffffff, 2);
 pointLight.position.set(0,0,0);
-const ambientLight = new THREE.AmbientLight(0xffffff);
-scene.add(pointLight); //remove ambient light in the end
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+scene.add(pointLight, ambientLight);
+
 
 //helpers
 const lightHelper = new THREE.PointLightHelper(pointLight);
@@ -114,7 +123,7 @@ const mercury = new THREE.Mesh (
 mercury.userData.planetName = 'Mercury';
 
 
-//Venus 
+//Venus
 const venusX = sunRad+40;
 const venus = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
@@ -278,7 +287,7 @@ const earthOrbit = new THREE.Mesh (
     {
       color: 0xe6e6e6,
       opacity: 0.4,
-      transparent: true 
+      transparent: true
     }
   )
 );
@@ -289,7 +298,7 @@ const marsOrbit = new THREE.Mesh (
     {
       color: 0xe6e6e6,
       opacity: 0.4,
-      transparent: true 
+      transparent: true
     }
   )
 );
@@ -300,7 +309,7 @@ const jupiterOrbit = new THREE.Mesh (
     {
       color: 0xe6e6e6,
       opacity: 0.4,
-      transparent: true 
+      transparent: true
     }
   )
 );
@@ -311,7 +320,7 @@ const saturnOrbit = new THREE.Mesh (
     {
       color: 0xe6e6e6,
       opacity: 0.4,
-      transparent: true 
+      transparent: true
     }
   )
 );
@@ -322,7 +331,7 @@ const uranusOrbit = new THREE.Mesh (
     {
       color: 0xe6e6e6,
       opacity: 0.4,
-      transparent: true 
+      transparent: true
     }
   )
 );
@@ -333,7 +342,7 @@ const neptuneOrbit = new THREE.Mesh (
     {
       color: 0xe6e6e6,
       opacity: 0.4,
-      transparent: true 
+      transparent: true
     }
   )
 );
@@ -344,8 +353,8 @@ planetOrbits.forEach((orbit) => {
   orbit.rotation.x = 90 * Math.PI / 180;
   scene.add(orbit);
 });
- 
-//Axis of rotation 
+
+//Axis of rotation
 const axis = new THREE.Vector3(0, 1, 0);
 const saturn_axis = new THREE.Vector3(0, 0, 1);
 
@@ -401,9 +410,8 @@ neptune.userData.pivotName = neptunePivot;
 const yearEarth = 6 * Math.PI * (1/60) * (1/60);
 
 //Make planets randomly positioned
-planetOrbitPosition(); 
+planetOrbitPosition();
 setPlanetsPivotable();
-animate();
 
 //EventListeners
 //Planet Selector
@@ -433,8 +441,9 @@ document.addEventListener('click', event => {
 
 //loadingManager
 loadingManager.onLoad = function () {
-  console.log('All resources Loaded.');
-  RESOURCES_LOADED = true;
+    console.log('All resources Loaded.');
+    RESOURCES_LOADED = true;
+    animate();
 }
 
 //planets positioning
@@ -457,7 +466,7 @@ function addStar () {
 }
 
 //Planet positioning
-function planetXPosition(value, index) 
+function planetXPosition(value, index)
 {
   value.position.set (planetsPosX[index], 0, 0);
 }
@@ -468,6 +477,14 @@ function setPlanetsPivotable ()
     pivot.userData.pivotable = true;
   });
 }
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 function createEarth()
 {
@@ -490,8 +507,8 @@ function animate() {
 
   requestAnimationFrame(animate);
   //Speed of rotation around the sun
-  mercuryPivot.rotation.y += yearEarth * 4;
-  venusPivot.rotation.y += yearEarth * 2;
+  mercuryPivot.rotation.y += yearEarth * 1.5;
+  venusPivot.rotation.y += yearEarth * 1.5;
   earthPivot.rotation.y += yearEarth;
   marsPivot.rotation.y += yearEarth * 0.5;
   jupiterPivot.rotation.y += yearEarth * 1/12;
@@ -506,7 +523,7 @@ function animate() {
    if (planet.userData.planetName != 'sun')
     {
       planet.rotateOnAxis (axis, 0.006);
-    } 
+    }
   });
 
   controls.update();
