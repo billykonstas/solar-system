@@ -1,0 +1,23 @@
+{
+  "name": "solar-system",
+  "version": "1.0.0",
+  "description": "This is a 3D represantation of the Milky Way Galaxy. It contains all the planets of the galaxy with their rotations. Each Planet is clickable and it opens a new page with information. You can move around the galaxy to see everything from different angles. It is built for educational purposes.",
+  "main": "main.js",
+  "scripts": {
+    "deploy": "gh-pages -d ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/billykonstas/solar-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/billykonstas/solar-system/issues"
+  },
+  "homepage": "https://billykonstas.github.io/solar-system",
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
