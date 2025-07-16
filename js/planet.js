@@ -10,7 +10,7 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(canvasContainer.offsetWidth, canvasContainer.offsetHeight);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.TextureLoader().load('./img/space.jpg');
+scene.background = new THREE.TextureLoader().load('/assets/space.jpg');
 
 const camera = new THREE.PerspectiveCamera(75, canvasContainer.offsetWidth / canvasContainer.offsetHeight, 0.1, 1000);
 camera.position.set(2, 1, 6);
@@ -52,7 +52,7 @@ resizeObserver.observe(canvasContainer);
 const cloudMesh = new THREE.Mesh(
     new THREE.SphereGeometry(2.03, 24, 24),
     new THREE.MeshPhongMaterial({
-        map: new THREE.TextureLoader().load('./img/clouds.png'),
+        map: new THREE.TextureLoader().load('/assets/clouds.png'),
         opacity: 0.4,
         transparent: true,
     })
@@ -61,8 +61,8 @@ const cloudMesh = new THREE.Mesh(
 const moon = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 64, 24),
     new THREE.MeshPhongMaterial({
-        map: new THREE.TextureLoader().load('./img/moon.jpg'),
-        normalMap: new THREE.TextureLoader().load('./img/moon_normal.jpg'),
+        map: new THREE.TextureLoader().load('/assets/moon.jpg'),
+        normalMap: new THREE.TextureLoader().load('/assets/moon_normal.jpg'),
         shininess: 1,
         reflectivity: 0.02
     })
@@ -73,7 +73,7 @@ const saturnRing = new THREE.Mesh(
     new THREE.TorusGeometry(2.5, 0.4, 2, 200),
     new THREE.MeshPhongMaterial({
         map: (() => {
-            const tex = new THREE.TextureLoader().load('./img/saturn_ring.png');
+            const tex = new THREE.TextureLoader().load('/assets/saturn_ring.png');
             tex.rotation = Math.PI / 2;
             return tex;
         })()
@@ -84,39 +84,39 @@ saturnRing.rotation.x = Math.PI * 1.5;
 // Planet materials config
 const planetConfigs = {
     Earth: {
-        texture: './img/earth.jpg',
-        bump: './img/earth_bump.jpg',
-        specular: './img/earth_specular.jpg',
+        texture: '/assets/earth.jpg',
+        bump: '/assets/earth_bump.jpg',
+        specular: '/assets/earth_specular.jpg',
         addons: [cloudMesh, moon]
     },
     Sun: {
-        texture: './img/sun.jpg',
-        normal: './img/sun_normal.jpg',
+        texture: '/assets/sun.jpg',
+        normal: '/assets/sun_normal.jpg',
     },
     Mercury: {
-        texture: './img/mercury.jpg',
-        normal: './img/mercury_normal.png'
+        texture: '/assets/mercury.jpg',
+        normal: '/assets/mercury_normal.png'
     },
     Venus: {
-        texture: './img/venus.jpg',
-        normal: './img/venus_normal.png'
+        texture: '/assets/venus.jpg',
+        normal: '/assets/venus_normal.png'
     },
     Mars: {
-        texture: './img/mars.jpg',
-        normal: './img/mars_normal.jpg'
+        texture: '/assets/mars.jpg',
+        normal: '/assets/mars_normal.jpg'
     },
     Jupiter: {
-        texture: './img/jupiter.jpg'
+        texture: '/assets/jupiter.jpg'
     },
     'Saturn with Ring': {
-        texture: './img/saturn.jpg',
+        texture: '/assets/saturn.jpg',
         addons: [saturnRing]
     },
     Uranus: {
-        texture: './img/uranus.jpg'
+        texture: '/assets/uranus.jpg'
     },
     Neptune: {
-        texture: './img/neptune.jpg'
+        texture: '/assets/neptune.jpg'
     }
 };
 

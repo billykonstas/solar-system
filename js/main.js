@@ -5,6 +5,7 @@ import {OrbitControls} from 'https://unpkg.com/three@0.127.0/examples/jsm/contro
 import { EffectComposer } from 'https://unpkg.com/three@0.127.0/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://unpkg.com/three@0.127.0/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass} from 'https://unpkg.com/three@0.127.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import {redirectTo} from "./helper.js";
 
 
 
@@ -76,7 +77,7 @@ bloomComposer.addPass(renderScene);
 bloomComposer.addPass(bloomPass);
 
 //background
-const spaceTexture = textureLoader.load('./img/space.jpg');
+const spaceTexture = textureLoader.load('/assets/space.jpg');
 scene.background = spaceTexture;
 
 
@@ -101,7 +102,7 @@ const sun = new THREE.Mesh (
   new THREE.SphereGeometry(sunRad, 24, 24),
   new THREE.MeshBasicMaterial(
     {
-      map : textureLoader.load('./img/sun.jpg'),
+      map : textureLoader.load('/assets/sun.jpg'),
       side: THREE.DoubleSide
     }
 )
@@ -116,7 +117,7 @@ const mercury = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('./img/mercury.jpg')
+      map : textureLoader.load('/assets/mercury.jpg')
     }
   )
 );
@@ -130,7 +131,7 @@ const venus = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('./img/venus.jpg')
+      map : textureLoader.load('/assets/venus.jpg')
     }
   )
 );
@@ -143,7 +144,7 @@ const earth = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('./img/earth.jpg'),
+      map : textureLoader.load('/assets/earth.jpg'),
     }
   )
 );
@@ -158,7 +159,7 @@ const mars = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('./img/mars.jpg'),
+      map : textureLoader.load('/assets/mars.jpg'),
     }
   )
 );
@@ -171,7 +172,7 @@ const jupiter = new THREE.Mesh (
   new THREE.SphereGeometry(20, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('./img/jupiter.jpg')
+      map : textureLoader.load('/assets/jupiter.jpg')
     }
   )
 );
@@ -184,7 +185,7 @@ const saturn = new THREE.Mesh (
   new THREE.SphereGeometry(15, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('./img/saturn.jpg')
+      map : textureLoader.load('/assets/saturn.jpg')
     }
   )
 );
@@ -194,7 +195,7 @@ saturn.userData.selectable = true;
 
 //Saturn Ring
 const saturnRingX = saturnX;
-const saturnTexture = textureLoader.load('./img/saturn_ring.png');
+const saturnTexture = textureLoader.load('/assets/saturn_ring.png');
 saturnTexture.rotation = 90 * Math.PI / 180;
 
 const saturnRing = new THREE.Mesh (
@@ -221,7 +222,7 @@ const uranus = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('./img/uranus.jpg')
+      map : textureLoader.load('/assets/uranus.jpg')
     }
   )
 );
@@ -234,7 +235,7 @@ const neptune = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('./img/neptune.jpg')
+      map : textureLoader.load('/assets/neptune.jpg')
     }
   )
 );
@@ -470,7 +471,7 @@ document.addEventListener('click', event => {
       isPlanetSelected = true;
       console.log('Selected Planet', selectedPlanet.userData.planetName);
       localStorage.setItem('selectedPlanet', selectedPlanet.userData.planetName);
-      location.href = './planet.html';
+      redirectTo('planet.html');
     }
   }
 );
@@ -644,7 +645,7 @@ function createEarth()
   camera.position.set(20,0,0);
   var cloudGeometry   = new THREE.SphereGeometry(5.1, 24, 24);
   var cloudMaterial  = new THREE.MeshPhongMaterial({
-  map     : textureLoader.load('./img/clouds.png'),
+  map     : textureLoader.load('/assets/clouds.png'),
   side        :  THREE.DoubleSide,
   opacity     : 0.8,
   transparent : true,
