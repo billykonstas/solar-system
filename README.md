@@ -3,7 +3,7 @@
 **A highly realistic, interactive 3D solar system built with [Three.js](https://threejs.org/), vanilla JavaScript, and localStorage.**  
 Planets orbit the sun, rotate on their axes, and can be clicked for more info — all inside your browser.
 
-![Solar System Preview](https://github.com/billykonstas/solar-system/blob/gh-pages/preview.png?raw=true)
+![Solar System Preview](screenshots/homepage.png)
 
 ## 🚀 Features
 
