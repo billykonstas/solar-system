@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Planet Page</title>
+    <link rel = "icon" href = "./img/icon.png" type = "image/x-icon">
+  </head>
+  <body>
+    <style>
+      
+      html, body {
+        margin:0px;
+        height: 100%;
+        background-color: black;
+      }
+
+      :root {
+        --clr-btn : #8D56E8;
+      }
+
+      .window {
+        height: 100%;
+        position: relative;
+        overflow-y: hidden;
+      }
+      .cell {
+        float: left;
+        height: 100%;
+      }
+
+      .left {
+        width: 35%;
+        color: white;
+        background-color: black;
+        text-align: center;
+        position: absolute;
+        font-family: 'Trebuchet MS', Arial, sans-serif;
+      }
+
+      .right {
+        width: 65%;
+        right: 0;
+        position: absolute;
+      }
+
+      #planetCanvas {
+        position: relative;
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .titleDiv {
+        height: 15%;
+        display: grid;
+        place-items: center;
+      }
+
+      #planetName {
+        font-size: 50px;
+        font-weight: bold;
+        display: inline-block;
+        text-decoration: none;
+        color: white;
+        position: relative;
+        cursor: default;
+      }
+
+      #planetName::after{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        bottom: -10px;
+        left: 0;
+        background: #8D56E8;
+        transform-origin: bottom left;
+        transition: transform 0.35s ease-out;
+        animation: 4s ease-out 0s 1 slideInFromLeft;
+      }
+
+ 
+      @keyframes slideInFromLeft {
+        0% {
+          transform: scaleX(0);
+        }
+        100% {
+          transform: scaleX(1);
+        }
+      }
+      
+
+      .infoDiv {
+        height: 70%;
+        overflow-y: auto;
+        display: grid;
+        place-items: center;
+      }
+
+      #planetInfo {
+        width: 90%;
+        font-size: 25px; 
+      }
+      
+
+      .buttonDiv {
+        height: 15%;
+        display: grid;
+        place-items: center;
+        bottom: 0;
+        position: absolute;
+        width: 100%;
+      }
+
+      .backButton {
+        color:var(--clr-btn); 
+        font-size: 2rem;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        position: relative;
+        border: var(--clr-btn) 0.125em solid;
+        padding: 0.2em 0.75em;
+        border-radius: 0.25em;
+        text-shadow: 0 0 1em hsl(0 0% 100% / 0.4),
+        0 0 0.125em var(--clr-btn);
+        box-shadow: inset 0 0 0.5em 0 var(--clr-btn),
+        0 0 0.5em 0 var(--clr-btn);
+      }
+
+      .backButton::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        box-shadow: 0 0 1em 0.3em var(--clr-btn);
+        opacity: 0;
+        transition: opacity 100ms linear;
+      }
+
+      .backButton:hover {
+        background: var(--clr-btn);
+        color: white;
+        text-shadow: none;
+      }
+
+      .backButton:hover::after {
+        opacity: 1;
+      }
+
+      .infoDiv::-webkit-scrollbar {
+        width: 0.8em;
+      }
+
+      .infoDiv::-webkit-scrollbar-track {
+        background: #c0a0f3;
+        border-radius: 100vw;
+       
+      }
+
+      .infoDiv::-webkit-scrollbar-thumb {
+        background: rgb(21,12,34);
+        background: linear-gradient( rgba(21,12,34,1) 0%, rgba(84,46,147,1) 50%, rgba(141,86,232,1) 100%);
+        border-radius: 100vw;
+        border: 0.15em solid #c0a0f3;
+      }
+
+      .infoDiv::-webkit-scrollbar-thumb:hover {
+        background: rgb(21,12,34);
+        background: linear-gradient( rgba(21,12,34,1) 0%, rgba(84,46,147,1) 50%, rgba(141,86,232,1) 100%);
+      }
+
+      @supports (scrollbar-color: #8D56E8 #c0a0f3) {
+      .infoDiv {
+        scrollbar-color: #8D56E8 #c0a0f3;
+      }
+    }
+
+    </style>
+    <div class="clock-loader"></div>
+    <div class="window">
+      <div class="cell left">
+        <div class="titleDiv">
+          <h1 id="planetName"></h1>
+        </div>
+        <div class="infoDiv">
+          <p id="planetInfo"></p>
+        </div>
+          <div class="buttonDiv">
+            <a href="./index.html" class="backButton">Back</a>
+          </div>
+          
+      </div>
+      <div class="cell right" id="canvasContainer">
+        <canvas id="planetCanvas"></canvas>
+      </div>
+    </div>
+    <script type="module" src="./planet.js" defer></script>
+  </body>
+</html>
