@@ -7,3 +7,35 @@ canvas {
 body {
   margin: 0;
 }
+
+#tooltip {
+  position: absolute;
+  background: rgba(10, 10, 30, 0.75);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  pointer-events: none;
+  white-space: nowrap;
+  display: none;
+  font-family: 'Orbitron', sans-serif; /* Consider using a futuristic font */
+  font-size: 14px;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  background-clip: padding-box;
+  box-shadow: 0 0 8px #8D56E8AA;
+  overflow: hidden;
+}
+
+#tooltip::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: conic-gradient(from 0deg, transparent, #8D56E8, transparent 70%);
+  z-index: -1;
+  animation: rotateBorder 2s linear infinite;
+  border-radius: 10px;
+  filter: blur(2px);
+}
