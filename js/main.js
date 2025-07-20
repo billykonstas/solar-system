@@ -214,7 +214,7 @@ saturnRing.rotation.x = 90 * Math.PI / 180;
 const saturnWithRing = new THREE.Group();
 saturnWithRing.add(saturn);
 saturnWithRing.add(saturnRing);
-saturnWithRing.userData.planetName = 'Saturn with Ring';
+saturnWithRing.userData.planetName = 'Saturn';
 
 //Uranus
 const uranusX = sunRad+200;
@@ -253,7 +253,7 @@ planets.forEach(planetXPosition);
 
 //Make planets selectable
 planets.forEach( (planet) => {
-  if(planet.userData.planetName != 'Saturn with Ring')
+  if(planet.userData.planetName !== 'Saturn with Ring')
   {
     planet.userData.selectable = true;
   }
@@ -465,7 +465,7 @@ document.addEventListener('click', event => {
     if (found.length > 0 && found[0].object.userData.selectable)
     {
       selectedPlanet = found[0].object;
-      if (selectedPlanet.userData.planetName == 'Saturn' || selectedPlanet.userData.planetName == 'Saturn Ring') {
+      if (selectedPlanet.userData.planetName === 'Saturn' || selectedPlanet.userData.planetName === 'Saturn Ring') {
         selectedPlanet = saturnWithRing;
       }
       isPlanetSelected = true;
@@ -505,7 +505,17 @@ window.addEventListener('mousemove', (event) => {
     // First test for planets
     const planetHits = hoverRaycaster.intersectObjects(planets, true);
     if (planetHits.length > 0) {
-        showTooltip(planetHits[0].object, event.clientX, event.clientY);
+        let hovered = planetHits[0].object;
+        // Normalize Saturn parts to main Saturn group
+        if (
+            hovered.userData.planetName === 'Saturn' ||
+            hovered.userData.planetName === 'Saturn Ring' ||
+            hovered.parent === saturnWithRing
+        ) {
+            hovered = saturnWithRing;
+            hovered.userData.planetName = 'Saturn'; // Force display name to be consistent
+        }
+        showTooltip(hovered, event.clientX, event.clientY);
         document.body.style.cursor = 'pointer';
         // Restore orbit if one was hovered before
         if (currentlyHoveredOrbit) {
