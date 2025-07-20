@@ -6,6 +6,54 @@ canvas {
 
 body {
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #222229;
+}
+
+.planet {
+  display: block;
+  width: 125px;
+  height: 125px;
+  position: absolute;
+  transform-style: preserve-3d;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #8D56E8, #1e0e3d 80%);
+  box-shadow:
+          inset 0 0 30px rgba(255, 255, 255, 0.1),
+          inset 8px -4px 10px rgba(141, 86, 232, 0.35),
+          inset -8px 4px 10px rgba(179, 136, 255, 0.2),
+          0 0 40px #8D56E8,
+          0 0 80px #8D56E8;
+  transform: rotateZ(-15deg);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Rings using your theme's palette */
+.planet::before,
+.planet::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border-top-width: 0;
+}
+
+.planet::before {
+  border: 16px solid rgba(141, 86, 232, 0.35);
+  box-shadow: 0 -2px 0 rgba(173, 127, 255, 0.8);
+  animation: rings1 0.8s infinite linear;
+}
+
+.planet::after {
+  border: 8px solid rgba(179, 136, 255, 0.25);
+  box-shadow: 0 -2px 0 rgba(141, 86, 232, 0.5);
+  animation: rings2 0.8s infinite linear;
 }
 
 #solar-title {
@@ -24,7 +72,6 @@ body {
   opacity: 0;
   animation-fill-mode: forwards;
 }
-
 
 #tooltip {
   position: absolute;
@@ -57,7 +104,15 @@ body {
   border-radius: 10px;
   filter: blur(2px);
 }
-
+/*Animations*/
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
 
 @keyframes fadeIn {
   0% {
@@ -71,12 +126,41 @@ body {
     text-shadow: 0 0 10px #8D56E8, 0 0 20px #8D56E8;
   }
 }
-/*Animations*/
-@keyframes float {
+
+@keyframes rings1 {
+  0% {
+    transform: rotateX(65deg) rotateZ(0deg) scale(1.75);
+  }
+  100% {
+    transform: rotateX(65deg) rotateZ(360deg) scale(1.75);
+  }
+}
+
+@keyframes rings2 {
+  0% {
+    transform: rotateX(65deg) rotateZ(0deg) scale(1.7);
+  }
+  100% {
+    transform: rotateX(65deg) rotateZ(360deg) scale(1.7);
+  }
+}
+
+/* Soft pulse effect to simulate energy */
+@keyframes glowPulse {
   0%, 100% {
-    transform: translateY(0);
+    box-shadow:
+            inset 0 0 30px rgba(255, 255, 255, 0.1),
+            inset 8px -4px 10px rgba(141, 86, 232, 0.35),
+            inset -8px 4px 10px rgba(179, 136, 255, 0.2),
+            0 0 40px #8D56E8,
+            0 0 80px #8D56E8;
   }
   50% {
-    transform: translateY(-5px);
+    box-shadow:
+            inset 0 0 20px rgba(255, 255, 255, 0.05),
+            inset 4px -2px 8px rgba(141, 86, 232, 0.2),
+            inset -4px 2px 8px rgba(179, 136, 255, 0.1),
+            0 0 20px #8D56E8,
+            0 0 40px #8D56E8;
   }
 }
