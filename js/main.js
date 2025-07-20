@@ -488,7 +488,12 @@ function showTooltip(planet, x, y) {
     const name = planet.userData.planetName || 'Unknown';
     const speed = getPlanetSpeed(name) || 'N/A';
     const info = getPlanetInfo(name) || 'N/A';
-    tooltip.innerHTML = `<strong>${name}</strong><br>Speed: ${speed}<br>${info}`;
+    if (name=== 'Sun') {
+        tooltip.innerHTML = `<strong>${name}</strong><br>${info}`;
+    }else
+    {
+        tooltip.innerHTML = `<strong>${name}</strong><br>Speed: ${speed}<br>${info}`;
+    }
 }
 
 function hideTooltip() {
