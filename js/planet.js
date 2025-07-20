@@ -167,7 +167,6 @@ generateInfo(myPlanetName);
 function animate() {
     requestAnimationFrame(animate);
     planet.rotation.y += 0.004;
-    moon.rotation.y += 0.009;
     cloudMesh.rotation.y += 0.008;
     saturnRing.rotation.z -= 0.004;
     renderer.render(scene, camera);
