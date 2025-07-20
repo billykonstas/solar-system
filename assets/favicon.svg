@@ -1,0 +1,54 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Planet gradient -->
+        <radialGradient id="planetGradient" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#8D56E8"/>
+            <stop offset="100%" stop-color="#1e0e3d"/>
+        </radialGradient>
+        <!-- Ring gradient -->
+        <linearGradient id="ringGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="0%" stop-color="#8D56E8" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#B388FF" stop-opacity="0.6" />
+        </linearGradient>
+        <!-- Mask for planet to occlude back half of the ring -->
+        <mask id="planetMask">
+            <rect width="100%" height="100%" fill="white"/>
+            <circle cx="16" cy="16" r="11.5" fill="black"/>
+        </mask>
+    </defs>
+    <!-- Back part of the ring (masked behind the planet) -->
+    <g mask="url(#planetMask)">
+        <ellipse
+                cx="16"
+                cy="16"
+                rx="14"
+                ry="4.2"
+                transform="rotate(-20 16 16)"
+                fill="none"
+                stroke="url(#ringGradient)"
+                stroke-width="1.8"
+                opacity="0.5"
+        />
+    </g>
+    <!-- Planet -->
+    <circle
+            cx="16"
+            cy="16"
+            r="11.5"
+            fill="url(#planetGradient)"
+            stroke="#8D56E8"
+            stroke-width="0.6"
+    />
+    <!-- Front part of the ring (visible in front of planet) -->
+    <ellipse
+            cx="16"
+            cy="16"
+            rx="14"
+            ry="4.2"
+            transform="rotate(-20 16 16)"
+            fill="none"
+            stroke="url(#ringGradient)"
+            stroke-width="1.8"
+            opacity="0.9"
+    />
+</svg>
