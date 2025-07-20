@@ -77,7 +77,7 @@ bloomComposer.addPass(renderScene);
 bloomComposer.addPass(bloomPass);
 
 //background
-const spaceTexture = textureLoader.load('/assets/space.jpg');
+const spaceTexture = textureLoader.load('assets/space.jpg');
 scene.background = spaceTexture;
 
 
@@ -102,7 +102,7 @@ const sun = new THREE.Mesh (
   new THREE.SphereGeometry(sunRad, 24, 24),
   new THREE.MeshBasicMaterial(
     {
-      map : textureLoader.load('/assets/sun.jpg'),
+      map : textureLoader.load('assets/sun.jpg'),
       side: THREE.DoubleSide
     }
 )
@@ -117,7 +117,7 @@ const mercury = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('/assets/mercury.jpg')
+      map : textureLoader.load('assets/mercury.jpg')
     }
   )
 );
@@ -131,7 +131,7 @@ const venus = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('/assets/venus.jpg')
+      map : textureLoader.load('assets/venus.jpg')
     }
   )
 );
@@ -144,7 +144,7 @@ const earth = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('/assets/earth.jpg'),
+      map : textureLoader.load('assets/earth.jpg'),
     }
   )
 );
@@ -159,7 +159,7 @@ const mars = new THREE.Mesh (
   new THREE.SphereGeometry(8, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('/assets/mars.jpg'),
+      map : textureLoader.load('assets/mars.jpg'),
     }
   )
 );
@@ -172,7 +172,7 @@ const jupiter = new THREE.Mesh (
   new THREE.SphereGeometry(20, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('/assets/jupiter.jpg')
+      map : textureLoader.load('assets/jupiter.jpg')
     }
   )
 );
@@ -185,7 +185,7 @@ const saturn = new THREE.Mesh (
   new THREE.SphereGeometry(15, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('/assets/saturn.jpg')
+      map : textureLoader.load('assets/saturn.jpg')
     }
   )
 );
@@ -195,7 +195,7 @@ saturn.userData.selectable = true;
 
 //Saturn Ring
 const saturnRingX = saturnX;
-const saturnTexture = textureLoader.load('/assets/saturn_ring.png');
+const saturnTexture = textureLoader.load('assets/saturn_ring.png');
 saturnTexture.rotation = 90 * Math.PI / 180;
 
 const saturnRing = new THREE.Mesh (
@@ -214,7 +214,7 @@ saturnRing.rotation.x = 90 * Math.PI / 180;
 const saturnWithRing = new THREE.Group();
 saturnWithRing.add(saturn);
 saturnWithRing.add(saturnRing);
-saturnWithRing.userData.planetName = 'Saturn with Ring';
+saturnWithRing.userData.planetName = 'Saturn';
 
 //Uranus
 const uranusX = sunRad+200;
@@ -222,7 +222,7 @@ const uranus = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('/assets/uranus.jpg')
+      map : textureLoader.load('assets/uranus.jpg')
     }
   )
 );
@@ -235,7 +235,7 @@ const neptune = new THREE.Mesh (
   new THREE.SphereGeometry(10, 24, 24),
   new THREE.MeshStandardMaterial(
     {
-      map : textureLoader.load('/assets/neptune.jpg')
+      map : textureLoader.load('assets/neptune.jpg')
     }
   )
 );
@@ -253,7 +253,7 @@ planets.forEach(planetXPosition);
 
 //Make planets selectable
 planets.forEach( (planet) => {
-  if(planet.userData.planetName != 'Saturn with Ring')
+  if(planet.userData.planetName !== 'Saturn with Ring')
   {
     planet.userData.selectable = true;
   }
@@ -465,7 +465,7 @@ document.addEventListener('click', event => {
     if (found.length > 0 && found[0].object.userData.selectable)
     {
       selectedPlanet = found[0].object;
-      if (selectedPlanet.userData.planetName == 'Saturn' || selectedPlanet.userData.planetName == 'Saturn Ring') {
+      if (selectedPlanet.userData.planetName === 'Saturn' || selectedPlanet.userData.planetName === 'Saturn Ring') {
         selectedPlanet = saturnWithRing;
       }
       isPlanetSelected = true;
@@ -488,7 +488,12 @@ function showTooltip(planet, x, y) {
     const name = planet.userData.planetName || 'Unknown';
     const speed = getPlanetSpeed(name) || 'N/A';
     const info = getPlanetInfo(name) || 'N/A';
-    tooltip.innerHTML = `<strong>${name}</strong><br>Speed: ${speed}<br>${info}`;
+    if (name=== 'Sun') {
+        tooltip.innerHTML = `<strong>${name}</strong><br>${info}`;
+    }else
+    {
+        tooltip.innerHTML = `<strong>${name}</strong><br>Speed: ${speed}<br>${info}`;
+    }
 }
 
 function hideTooltip() {
@@ -505,7 +510,17 @@ window.addEventListener('mousemove', (event) => {
     // First test for planets
     const planetHits = hoverRaycaster.intersectObjects(planets, true);
     if (planetHits.length > 0) {
-        showTooltip(planetHits[0].object, event.clientX, event.clientY);
+        let hovered = planetHits[0].object;
+        // Normalize Saturn parts to main Saturn group
+        if (
+            hovered.userData.planetName === 'Saturn' ||
+            hovered.userData.planetName === 'Saturn Ring' ||
+            hovered.parent === saturnWithRing
+        ) {
+            hovered = saturnWithRing;
+            hovered.userData.planetName = 'Saturn'; // Force display name to be consistent
+        }
+        showTooltip(hovered, event.clientX, event.clientY);
         document.body.style.cursor = 'pointer';
         // Restore orbit if one was hovered before
         if (currentlyHoveredOrbit) {
@@ -645,7 +660,7 @@ function createEarth()
   camera.position.set(20,0,0);
   var cloudGeometry   = new THREE.SphereGeometry(5.1, 24, 24);
   var cloudMaterial  = new THREE.MeshPhongMaterial({
-  map     : textureLoader.load('/assets/clouds.png'),
+  map     : textureLoader.load('assets/clouds.png'),
   side        :  THREE.DoubleSide,
   opacity     : 0.8,
   transparent : true,
@@ -674,7 +689,7 @@ function animate() {
   sun.rotation.y += 0.001;
 
   planets.forEach((planet) => {
-   if (planet.userData.planetName != 'sun')
+   if (planet.userData.planetName !== 'Sun')
     {
       planet.rotateOnAxis (axis, 0.006);
     }

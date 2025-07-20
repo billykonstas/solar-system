@@ -10,7 +10,7 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(canvasContainer.offsetWidth, canvasContainer.offsetHeight);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.TextureLoader().load('/assets/space.jpg');
+scene.background = new THREE.TextureLoader().load('assets/space.jpg');
 
 const camera = new THREE.PerspectiveCamera(75, canvasContainer.offsetWidth / canvasContainer.offsetHeight, 0.1, 1000);
 camera.position.set(2, 1, 6);
@@ -52,7 +52,7 @@ resizeObserver.observe(canvasContainer);
 const cloudMesh = new THREE.Mesh(
     new THREE.SphereGeometry(2.03, 24, 24),
     new THREE.MeshPhongMaterial({
-        map: new THREE.TextureLoader().load('/assets/clouds.png'),
+        map: new THREE.TextureLoader().load('assets/clouds.png'),
         opacity: 0.4,
         transparent: true,
     })
@@ -61,8 +61,8 @@ const cloudMesh = new THREE.Mesh(
 const moon = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 64, 24),
     new THREE.MeshPhongMaterial({
-        map: new THREE.TextureLoader().load('/assets/moon.jpg'),
-        normalMap: new THREE.TextureLoader().load('/assets/moon_normal.jpg'),
+        map: new THREE.TextureLoader().load('assets/moon.jpg'),
+        normalMap: new THREE.TextureLoader().load('assets/moon_normal.jpg'),
         shininess: 1,
         reflectivity: 0.02
     })
@@ -73,7 +73,7 @@ const saturnRing = new THREE.Mesh(
     new THREE.TorusGeometry(2.5, 0.4, 2, 200),
     new THREE.MeshPhongMaterial({
         map: (() => {
-            const tex = new THREE.TextureLoader().load('/assets/saturn_ring.png');
+            const tex = new THREE.TextureLoader().load('assets/saturn_ring.png');
             tex.rotation = Math.PI / 2;
             return tex;
         })()
@@ -84,39 +84,39 @@ saturnRing.rotation.x = Math.PI * 1.5;
 // Planet materials config
 const planetConfigs = {
     Earth: {
-        texture: '/assets/earth.jpg',
-        bump: '/assets/earth_bump.jpg',
-        specular: '/assets/earth_specular.jpg',
+        texture: 'assets/earth.jpg',
+        bump: 'assets/earth_bump.jpg',
+        specular: 'assets/earth_specular.jpg',
         addons: [cloudMesh, moon]
     },
     Sun: {
-        texture: '/assets/sun.jpg',
-        normal: '/assets/sun_normal.jpg',
+        texture: 'assets/sun.jpg',
+        normal: 'assets/sun_normal.jpg',
     },
     Mercury: {
-        texture: '/assets/mercury.jpg',
-        normal: '/assets/mercury_normal.png'
+        texture: 'assets/mercury.jpg',
+        normal: 'assets/mercury_normal.png'
     },
     Venus: {
-        texture: '/assets/venus.jpg',
-        normal: '/assets/venus_normal.png'
+        texture: 'assets/venus.jpg',
+        normal: 'assets/venus_normal.png'
     },
     Mars: {
-        texture: '/assets/mars.jpg',
-        normal: '/assets/mars_normal.jpg'
+        texture: 'assets/mars.jpg',
+        normal: 'assets/mars_normal.jpg'
     },
     Jupiter: {
-        texture: '/assets/jupiter.jpg'
+        texture: 'assets/jupiter.jpg'
     },
-    'Saturn with Ring': {
-        texture: '/assets/saturn.jpg',
+    Saturn: {
+        texture: 'assets/saturn.jpg',
         addons: [saturnRing]
     },
     Uranus: {
-        texture: '/assets/uranus.jpg'
+        texture: 'assets/uranus.jpg'
     },
     Neptune: {
-        texture: '/assets/neptune.jpg'
+        texture: 'assets/neptune.jpg'
     }
 };
 
@@ -167,7 +167,6 @@ generateInfo(myPlanetName);
 function animate() {
     requestAnimationFrame(animate);
     planet.rotation.y += 0.004;
-    moon.rotation.y += 0.009;
     cloudMesh.rotation.y += 0.008;
     saturnRing.rotation.z -= 0.004;
     renderer.render(scene, camera);
@@ -178,7 +177,7 @@ animate();
 function generateInfo(name) {
     const title = document.getElementById('planetName');
     const info = document.getElementById('planetInfo');
-    title.textContent = name === 'Saturn with Ring' ? 'Saturn' : name;
+    title.textContent = name;
 
     const descriptions = {
         Sun: "The Sun is a 4.5 billion-year-old star – a hot glowing ball of hydrogen and helium at the center of our solar system. It is about 93 million miles (150 million kilometers) from Earth, and without its energy, life as we know it could not exist here on our home planet.<br><br>The Sun is the largest object in our solar system. The Sun’s volume would need 1.3 million Earths to fill it. Its gravity holds the solar system together, keeping everything from the biggest planets to the smallest bits of debris in orbit around it. The hottest part of the Sun is its core, where temperatures top 27 million degrees Fahrenheit (15 million degrees Celsius).<br><br> The Sun’s activity, from its powerful eruptions to the steady stream of charged particles it sends out, influences the nature of space throughout the solar system. NASA and other international space agencies monitor the Sun 24",
@@ -187,7 +186,7 @@ function generateInfo(name) {
         Earth: 'Earth is the third planet from the Sun, and the only place we know of so far that’s inhabited by living things.<br><br>While Earth is only the fifth largest planet in the solar system, it is the only world in our solar system with liquid water on the surface. Just slightly larger than nearby Venus, Earth is the biggest of the four planets closest to the Sun, all of which are made of rock and metal.<br><br>The name Earth is at least 1,000 years old. All of the planets, except for Earth, were named after Greek and Roman gods and goddesses. However, the name Earth is a Germanic word, which simply means “the ground.”',
         Mars: 'Mars is the fourth planet from the Sun – a dusty, cold, desert world with a very thin atmosphere. Mars is also a dynamic planet with seasons, polar ice caps, canyons, extinct volcanoes, and evidence that it was even more active in the past.<br><br>Mars is one of the most explored bodies in our solar system, and it\'s the only planet where we\'ve sent rovers to roam the alien landscape.<br><br>NASA currently has two rovers (Curiosity and Perseverance), one lander (InSight), and one helicopter (Ingenuity) exploring the surface of Mars.',
         Jupiter: 'Jupiter has a long history of surprising scientists – all the way back to 1610 when Galileo Galilei found the first moons beyond Earth. That discovery changed the way we see the universe.<br><br>Fifth in line from the Sun, Jupiter is, by far, the largest planet in the solar system – more than twice as massive as all the other planets combined.<br><br>Jupiter\'s familiar stripes and swirls are actually cold, windy clouds of ammonia and water, floating in an atmosphere of hydrogen and helium. Jupiter’s iconic Great Red Spot is a giant storm bigger than Earth that has raged for hundreds of years.<br><br>One spacecraft – NASA\'s Juno orbiter – is currently exploring this giant world.',
-        'Saturn with Ring': 'Saturn is the sixth planet from the Sun and the second-largest planet in our solar system.<br><br>Adorned with thousands of beautiful ringlets, Saturn is unique among the planets. It is not the only planet to have rings – made of chunks of ice and rock – but none are as spectacular or as complicated as Saturn\'s.<br><br>Like fellow gas giant Jupiter, Saturn is a massive ball made mostly of hydrogen and helium.',
+        Saturn: 'Saturn is the sixth planet from the Sun and the second-largest planet in our solar system.<br><br>Adorned with thousands of beautiful ringlets, Saturn is unique among the planets. It is not the only planet to have rings – made of chunks of ice and rock – but none are as spectacular or as complicated as Saturn\'s.<br><br>Like fellow gas giant Jupiter, Saturn is a massive ball made mostly of hydrogen and helium.',
         Uranus: 'Uranus is the seventh planet from the Sun, and has the third-largest diameter in our solar system. It was the first planet found with the aid of a telescope, Uranus was discovered in 1781 by astronomer William Herschel, although he originally thought it was either a comet or a star.<br><br>It was two years later that the object was universally accepted as a new planet, in part because of observations by astronomer Johann Elert Bode. Herschel tried unsuccessfully to name his discovery Georgium Sidus after King George III. Instead, the scientific community accepted Bode\'s suggestion to name it Uranus, the Greek god of the sky, as suggested by Bode.\u200B',
         Neptune: 'Dark, cold, and whipped by supersonic winds, ice giant Neptune is the eighth and most distant planet in our solar system.<br><br>More than 30 times as far from the Sun as Earth, Neptune is the only planet in our solar system not visible to the naked eye and the first predicted by mathematics before its discovery. In 2011 Neptune completed its first 165-year orbit since its discovery in 1846.<br><br>NASA\'s Voyager 2 is the only spacecraft to have visited Neptune up close. It flew past in 1989 on its way out of the solar system.',
     };
