@@ -689,7 +689,7 @@ function animate() {
   sun.rotation.y += 0.001;
 
   planets.forEach((planet) => {
-   if (planet.userData.planetName != 'sun')
+   if (planet.userData.planetName !== 'Sun')
     {
       planet.rotateOnAxis (axis, 0.006);
     }
