@@ -8,6 +8,24 @@ body {
   margin: 0;
 }
 
+#solar-title {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 48px;
+  color: #8D56E8;
+  text-shadow: 0 0 10px #8D56E8, 0 0 20px #8D56E8;
+  letter-spacing: 2px;
+  animation: fadeIn 2.5s ease-out, float 6s ease-in-out infinite;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+
 #tooltip {
   position: absolute;
   background: rgba(10, 10, 30, 0.75);
@@ -17,7 +35,7 @@ body {
   pointer-events: none;
   white-space: nowrap;
   display: none;
-  font-family: 'Orbitron', sans-serif; /* Consider using a futuristic font */
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   z-index: 10;
   backdrop-filter: blur(4px);
@@ -38,4 +56,27 @@ body {
   animation: rotateBorder 2s linear infinite;
   border-radius: 10px;
   filter: blur(2px);
+}
+
+
+@keyframes fadeIn {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+    text-shadow: none;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    text-shadow: 0 0 10px #8D56E8, 0 0 20px #8D56E8;
+  }
+}
+/*Animations*/
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
